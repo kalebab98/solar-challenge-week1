@@ -1,19 +1,41 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+import os
+import tempfile
 import streamlit as st
 
-@st.cache_data
-def load_data(file_paths):
-    all_data = []
-    for country, path in file_paths.items():
-        df = pd.read_csv(path)
-        df["Country"] = country
-        all_data.append(df)
-    return pd.concat(all_data, ignore_index=True)
+def load_data(uploaded_files):
+    """
+    Load data from the given uploaded files.
 
-def plot_boxplot(data, metric):
-    fig, ax = plt.subplots()
-    sns.boxplot(x="Country", y=metric, data=data, palette="Set2", ax=ax)
-    ax.set_title(f"{metric} by Country")
-    st.pyplot(fig)
+    Args:
+    uploaded_files (list): List of uploaded file-like objects from Streamlit file_uploader.
+
+    Returns:
+    pd.DataFrame: A DataFrame containing the merged data from all the files.
+    """
+    data_frames = []
+    
+    # Handle each uploaded file
+    for uploaded_file in uploaded_files:
+        try:
+            # Create a temporary file to save the uploaded file content
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                tmp_file.write(uploaded_file.getbuffer())  # Write the content to the temp file
+                tmp_file_path = tmp_file.name  # Get the path of the temp file
+            
+            # Read the file into a DataFrame
+            df = pd.read_csv(tmp_file_path)
+            data_frames.append(df)
+        
+        except Exception as e:
+            # Catch any errors and display them to the user
+            st.error(f"Error processing file {uploaded_file.name}: {e}")
+            continue  # Skip to the next file if there was an error
+
+    # Concatenate all the DataFrames
+    if data_frames:
+        combined_data = pd.concat(data_frames, ignore_index=True)
+        return combined_data
+    else:
+        st.warning("No data was loaded. Please check the uploaded files.")
+        return pd.DataFrame()  # Return an empty DataFrame if no files were loaded
