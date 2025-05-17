@@ -1,45 +1,51 @@
 import streamlit as st
 import pandas as pd
-import os
-from utils import load_data  # Make sure this is the correct path to your utils.py
+from utils import load_data
 
-# Title of the dashboard
+# Title and description
+st.set_page_config(page_title="Solar Potential Dashboard", layout="wide")
 st.title("🔆 Solar Potential Comparison Dashboard")
-
-# Instructions on how to use the app
 st.markdown("""
-    This dashboard compares the solar potential data for different countries. 
-    Please select a country from the options below to view its solar data.
+This dashboard allows you to explore solar radiation data across countries.
+Use the selector to choose a country and explore its solar trends.
 """)
 
-# Define the file paths for each country's data (assuming CSVs are in the same directory as main.py)
+# File paths (expected to be in the same directory as main.py)
 file_paths = {
-    "Sierraleone": "sierraleone_clean.csv",  # Adjust to your correct file name if needed
     "Benin": "benin_clean.csv",
+    "Sierra Leone": "sierraleone_clean.csv",
     "Togo": "togo_clean.csv"
 }
 
-# Country selection dropdown
-country = st.selectbox("Select a country:", list(file_paths.keys()))
+# Country selection
+country = st.selectbox("🌍 Select a Country", options=list(file_paths.keys()))
+data = load_data(file_paths[country])
 
-# Function to check if file exists
-def check_file_exists(file_path):
-    return os.path.exists(file_path)
+if not data.empty:
+    st.subheader(f"📊 Raw Data Preview - {country}")
+    st.dataframe(data.head())
 
-# Load data based on the country selection
-# Load data based on the country selection
-if country:
-    data = load_data(file_paths[country])
+    ghi_col = "GHI"
+    region_col = "WD"  # Example: you can choose a better "region" column based on your dataset
 
-    # Display data for the selected country
-    st.subheader(f"Solar Data for {country}")
-    st.write(data)
-
-    # Check the columns to identify the one to use for solar potential
-    st.write("Columns in the data:", data.columns)
-
-    # Assuming 'GHI' is the column you want to visualize
-    if 'GHI' in data.columns:
-        st.bar_chart(data['GHI'])  # Display chart based on the 'GHI' column
+    if ghi_col in data.columns:
+        st.subheader("🌞 GHI Boxplot")
+        st.box_chart(data[ghi_col])
     else:
-        st.warning(f"The 'GHI' column does not exist in the {country} dataset.")
+        st.error(f"'{ghi_col}' column not found in dataset.")
+
+    # Optional: top "regions" (or any categorical grouping if available)
+    if region_col in data.columns:
+        st.subheader("🏆 Top Wind Directions by Avg GHI (proxy for region)")
+        top_regions = (
+            data.groupby(region_col)[ghi_col]
+            .mean()
+            .sort_values(ascending=False)
+            .head(5)
+            .reset_index()
+        )
+        st.table(top_regions)
+    else:
+        st.warning(f"'{region_col}' column not found for region analysis.")
+else:
+    st.error("Data could not be loaded. Please check your files.")
