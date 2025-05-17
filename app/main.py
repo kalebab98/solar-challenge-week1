@@ -13,9 +13,9 @@ st.markdown("""
 
 # Load data function - replace these file names with actual paths
 file_paths = {
-    "Sierraleone": "data/sierraleone_clean.csv",  # Update the file paths as per your directory
-    "Benin": "data/benin_clean.csv",
-    "Togo": "data/togo_clean.csv"
+    "Sierraleone": "sierraleone_clean.csv",  # Update the file paths as per your directory
+    "Benin": "benin_clean.csv",
+    "Togo": "togo_clean.csv"
 }
 
 # Country selection dropdown
