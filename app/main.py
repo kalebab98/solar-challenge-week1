@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from utils import load_data  # Ensure this import path is correct
+import os
+from utils import load_data  # Make sure this is the correct path to your utils.py
 
 # Title of the dashboard
 st.title("🔆 Solar Potential Comparison Dashboard")
@@ -11,9 +12,9 @@ st.markdown("""
     Please select a country from the options below to view its solar data.
 """)
 
-# Load data function - replace these file names with actual paths
+# Define the file paths for each country's data (assuming CSVs are in the same directory as main.py)
 file_paths = {
-    "Sierraleone": "sierraleone_clean.csv",  # Update the file paths as per your directory
+    "Sierraleone": "sierraleone_clean.csv",  # Adjust to your correct file name if needed
     "Benin": "benin_clean.csv",
     "Togo": "togo_clean.csv"
 }
@@ -21,17 +22,22 @@ file_paths = {
 # Country selection dropdown
 country = st.selectbox("Select a country:", list(file_paths.keys()))
 
+# Function to check if file exists
+def check_file_exists(file_path):
+    return os.path.exists(file_path)
+
 # Load data based on the country selection
 if country:
-    file_path = file_paths[country]  # Get the file path for the selected country
-    try:
-        data = load_data(file_path)  # Load the data using the load_data function from utils.py
+    # Check if the file exists before trying to load it
+    selected_file_path = file_paths[country]
+    if check_file_exists(selected_file_path):
+        data = load_data(selected_file_path)
 
         # Display data for the selected country
         st.subheader(f"Solar Data for {country}")
         st.write(data)
 
         # You can add more visualizations or data summaries here
-        st.bar_chart(data['solar_potential'])  # Assuming 'solar_potential' is one of the columns in your CSV file
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+        st.bar_chart(data['solar_potential'])
+    else:
+        st.error(f"File not found: {selected_file_path}")
