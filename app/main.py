@@ -1,54 +1,34 @@
 import streamlit as st
-import seaborn as sns
-import matplotlib.pyplot as plt
-from utils import load_data
+import pandas as pd
+from utils import load_data  # Make sure this is the correct path to your utils.py
 
-# Set page config
-st.set_page_config(page_title="Solar Country Comparison", layout="centered")
-
-# Title
+# Title of the dashboard
 st.title("🔆 Solar Potential Comparison Dashboard")
 
-# File paths (update these with your real paths if needed)
-folder = r"C:\Users\Kaleb\OneDrive\Documents\AC\data\data"
+# Instructions on how to use the app
+st.markdown("""
+    This dashboard compares the solar potential data for different countries. 
+    Please select a country from the options below to view its solar data.
+""")
+
+# Load data function - replace these file names with actual paths
 file_paths = {
-    "Benin": f"{folder}\\benin_clean.csv",
-    "Sierra Leone": f"{folder}\\sierraleone_clean.csv",
-    "Togo": f"{folder}\\togo_clean.csv",
+    "Sierraleone": "sierraleone_clean.csv",
+    "Benin": "benin_clean.csv",
+    "Togo": "togo_clean.csv"
 }
 
-# Load data
-data = load_data(file_paths)
+# Country selection dropdown
+country = st.selectbox("Select a country:", list(file_paths.keys()))
 
-# Optional: show columns for debug
-if st.checkbox("Show column names"):
-    st.write(data.columns.tolist())
+# Load data based on the country selection
+if country:
+    data = load_data(file_paths[country])
 
-# Filter countries
-selected_countries = st.multiselect(
-    "Select countries to compare:",
-    options=data["Country"].unique(),
-    default=list(data["Country"].unique())
-)
+    # Display data for the selected country
+    st.subheader(f"Solar Data for {country}")
+    st.write(data)
 
-filtered_data = data[data["Country"].isin(selected_countries)]
+    # You can add more visualizations or data summaries here
+    st.bar_chart(data['solar_potential'])  # Assuming 'solar_potential' is one of the columns in your CSV file
 
-# Choose metric to visualize
-metric = st.selectbox("Choose a solar metric to plot:", ["GHI", "DNI", "DHI"])
-
-# Boxplot
-st.subheader(f"{metric} Distribution by Country")
-fig, ax = plt.subplots()
-sns.boxplot(x="Country", y=metric, data=filtered_data, palette="Set2", ax=ax)
-st.pyplot(fig)
-
-# Summary Table
-st.subheader(f"{metric} Summary Table")
-summary = filtered_data.groupby("Country")[metric].agg(["mean", "median", "std"]).reset_index()
-st.dataframe(summary)
-
-# Optional: Average GHI Bar Chart
-if metric == "GHI":
-    st.subheader("📊 Average GHI by Country")
-    ghi_avg = data.groupby("Country")["GHI"].mean().sort_values(ascending=False)
-    st.bar_chart(ghi_avg)
