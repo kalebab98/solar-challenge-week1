@@ -27,17 +27,19 @@ def check_file_exists(file_path):
     return os.path.exists(file_path)
 
 # Load data based on the country selection
+# Load data based on the country selection
 if country:
-    # Check if the file exists before trying to load it
-    selected_file_path = file_paths[country]
-    if check_file_exists(selected_file_path):
-        data = load_data(selected_file_path)
+    data = load_data(file_paths[country])
 
-        # Display data for the selected country
-        st.subheader(f"Solar Data for {country}")
-        st.write(data)
+    # Display data for the selected country
+    st.subheader(f"Solar Data for {country}")
+    st.write(data)
 
-        # You can add more visualizations or data summaries here
-        st.bar_chart(data['solar_potential'])
+    # Check the columns to identify the one to use for solar potential
+    st.write("Columns in the data:", data.columns)
+
+    # Assuming 'GHI' is the column you want to visualize
+    if 'GHI' in data.columns:
+        st.bar_chart(data['GHI'])  # Display chart based on the 'GHI' column
     else:
-        st.error(f"File not found: {selected_file_path}")
+        st.warning(f"The 'GHI' column does not exist in the {country} dataset.")
