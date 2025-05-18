@@ -1,5 +1,5 @@
 ![image](https://github.com/user-attachments/assets/f1eaa7ea-1454-4fce-bbed-b645e9af1513)
-# Solar Energy Analytics Report – Week 0 Challenge
+# Solar Energy Analytics Report 
 **Project**: Exploratory Solar Analysis for MoonLight Energy Solutions  
 **Date:** May 2025
 
