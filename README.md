@@ -3,7 +3,7 @@
 **Project**: Exploratory Solar Analysis for MoonLight Energy Solutions  
 **Date:** May 2025
 
----
+
 
 ## 1. Introduction
 
@@ -11,7 +11,7 @@ This project focuses on analyzing environmental and solar irradiance data collec
 
 The data includes hourly solar radiation measurements (GHI, DNI, DHI), temperature, humidity, wind, and other relevant environmental variables.
 
----
+
 
 ## 2. Methodology
 
@@ -41,7 +41,7 @@ The data includes hourly solar radiation measurements (GHI, DNI, DHI), temperatu
 4. Dashboard
    - Built an interactive Streamlit app to explore country-wise metrics.
 
----
+
 
 
 
@@ -52,7 +52,7 @@ The data includes hourly solar radiation measurements (GHI, DNI, DHI), temperatu
 - Use real-time monitoring dashboards** for operational oversight.
 - Invest in automated cleaning systems** to improve energy output without manual intervention.
 
----
+
 
 ## 5. Conclusion
 
@@ -60,7 +60,7 @@ This challenge provided hands-on exposure to end-to-end data engineering and ana
 
 MoonLight Energy Solutions can leverage these insights to deploy solar assets where they yield maximum return and reliability.
 
----
+
 
 # Dashboard link
 
