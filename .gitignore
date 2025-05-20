@@ -1,0 +1,12 @@
+# Ignore the data folder and any CSV files within it
+data/
+
+# Ignore all CSV files globally
+*.csv
+
+# Optionally, ignore any notebook checkpoints (in case you're using Jupyter notebooks)
+.ipynb_checkpoints/
+
+# Add other unnecessary files or folders for your project (like pycache)
+__pycache__/
+*.pyc
