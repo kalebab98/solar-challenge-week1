@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/f1eaa7ea-1454-4fce-bbed-b645e9af1513)
 # Solar Energy Analytics Report – Week 0 Challenge
 **Project**: Exploratory Solar Analysis for MoonLight Energy Solutions  
 **Date:** May 2025
@@ -21,7 +20,7 @@ The data includes hourly solar radiation measurements (GHI, DNI, DHI), temperatu
 - **Streamlit** for dashboard deployment
 - **Git/GitHub** for version control and CI/CD
 
-## Steps Taken
+### Steps Taken
 1. **Data Cleaning & Profiling**
    - Checked for missing values and outliers.
    - Imputed missing data using median.
@@ -38,19 +37,17 @@ The data includes hourly solar radiation measurements (GHI, DNI, DHI), temperatu
    - Summary statistics table (mean, median, std).
    - ANOVA test to evaluate statistical significance.
 
-4. Dashboard
+4. **Dashboard**
    - Built an interactive Streamlit app to explore country-wise metrics.
 
 ---
 
-
-
 ## 4. Recommendations
 
-- Benin showed consistently higher GHI and DNI values, making it the most viable candidate for large-scale solar installation.
-- Implement routine sensor cleaning**, as data showed a clear boost in sensor readings post-cleaning.
-- Use real-time monitoring dashboards** for operational oversight.
-- Invest in automated cleaning systems** to improve energy output without manual intervention.
+- **Benin** showed consistently higher GHI and DNI values, making it the most viable candidate for large-scale solar installation.
+- **Implement routine sensor cleaning**, as data showed a clear boost in sensor readings post-cleaning.
+- **Use real-time monitoring dashboards** for operational oversight.
+- **Invest in automated cleaning systems** to improve energy output without manual intervention.
 
 ---
 
@@ -62,11 +59,5 @@ MoonLight Energy Solutions can leverage these insights to deploy solar assets wh
 
 ---
 
-# Dashboard link
-
-https://solar-challenge-week1-p5njyqbwxwka6xau6sh5hd.streamlit.app/
-
-
-
-
-
+## 📊 Dashboard link
+[Access the Dashboard](https://solar-challenge-week1-p5njyqbwxwka6xau6sh5hd.streamlit.app/)
